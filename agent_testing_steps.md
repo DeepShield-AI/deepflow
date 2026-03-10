@@ -167,9 +167,9 @@ sleep 15
 
 # 查找监听端口
 grep "debugger listening on" agent.log
-# 输出示例: [INFO] debugger listening on: [::]:48522
+# 输出示例: [INFO] debugger listening on: [::]:3314
 ```
-*记下这个端口号（例如 48522），后续命令中将用 `<PORT>` 代替。*
+*记下这个端口号（例如 3314），后续命令中将用 `3314` 代替。*
 
 ### 2.7 生成测试流量 (可选)
 为了测试 `ebpf` 和 `policy monitor` 功能，建议在本地生成一些网络流量。
@@ -197,7 +197,7 @@ USAGE:
 
 OPTIONS:
     -a, --address <ADDRESS>    remote deepflow-agent host ip [default: 127.0.0.1]
-    -p, --port <PORT>          remote deepflow-agent listening port
+    -p, --port 3314          remote deepflow-agent listening port
     -h, --help                 Print help information
 
 SUBCOMMANDS:
@@ -262,7 +262,7 @@ OPTIONS:
 
 **测试命令 (Version)**:
 ```bash
-./agent/target/debug/deepflow-agent-ctl -p <PORT> rpc --get version
+./agent/target/debug/deepflow-agent-ctl -p 3314 rpc --get version
 ```
 
 **预期结果**:
@@ -275,7 +275,7 @@ flowAcls version: 0
 
 **测试命令 (Config)**:
 ```bash
-./agent/target/debug/deepflow-agent-ctl -p <PORT> rpc --get config
+./agent/target/debug/deepflow-agent-ctl -p 3314 rpc --get config
 ```
 **预期结果**:
 可能返回 `grpc client not connected` 错误。
@@ -284,7 +284,7 @@ flowAcls version: 0
 **测试命令 (其他类型)**:
 可以尝试获取其他类型数据，但在 Standalone 模式下通常为空或报错。
 ```bash
-./agent/target/debug/deepflow-agent-ctl -p <PORT> rpc --get acls
+./agent/target/debug/deepflow-agent-ctl -p 3314 rpc --get acls
 ```
 
 ### 3.4 `queue` 命令
@@ -313,13 +313,13 @@ OPTIONS:
 **测试命令 (Show)**:
 列出所有队列及其状态。
 ```bash
-./agent/target/debug/deepflow-agent-ctl -p <PORT> queue --show
+./agent/target/debug/deepflow-agent-ctl -p 3314 queue --show
 ```
 
 **测试命令 (Monitor)**:
 开启指定队列监控（例如 `1-tagged-flow-to-quadruple-generator`）。
 ```bash
-./agent/target/debug/deepflow-agent-ctl -p <PORT> queue --on 1-tagged-flow-to-quadruple-generator --duration 5
+./agent/target/debug/deepflow-agent-ctl -p 3314 queue --on 1-tagged-flow-to-quadruple-generator --duration 5
 ```
 
 **预期结果**:
@@ -331,13 +331,13 @@ MSG-177 TaggedFlow { flow: Flow { ... } }
 **测试命令 (Off)**:
 手动关闭指定队列的监控。
 ```bash
-./agent/target/debug/deepflow-agent-ctl -p <PORT> queue --off 1-tagged-flow-to-quadruple-generator
+./agent/target/debug/deepflow-agent-ctl -p 3314 queue --off 1-tagged-flow-to-quadruple-generator
 ```
 
 **测试命令 (Clear)**:
 如果监控非正常中断，可能会遗留开启状态，可以使用 clear 命令重置。
 ```bash
-./agent/target/debug/deepflow-agent-ctl -p <PORT> queue --clear
+./agent/target/debug/deepflow-agent-ctl -p 3314 queue --clear
 ```
 
 ### 3.5 `platform` 命令
@@ -366,9 +366,9 @@ OPTIONS:
 
 **测试命令**:
 ```bash
-./agent/target/debug/deepflow-agent-ctl -p <PORT> platform --mac-mappings
-./agent/target/debug/deepflow-agent-ctl -p <PORT> platform --k8s-get node
-./agent/target/debug/deepflow-agent-ctl -p <PORT> platform --k8s-get version
+./agent/target/debug/deepflow-agent-ctl -p 3314 platform --mac-mappings
+./agent/target/debug/deepflow-agent-ctl -p 3314 platform --k8s-get node
+./agent/target/debug/deepflow-agent-ctl -p 3314 platform --k8s-get version
 ```
 
 **预期结果**:
@@ -393,7 +393,7 @@ SUBCOMMANDS:
 实时监控流的查表结果。
 ```bash
 # 该命令会阻塞输出流日志，按 Ctrl+C 停止，或等待超时
-./agent/target/debug/deepflow-agent-ctl -p <PORT> policy monitor
+./agent/target/debug/deepflow-agent-ctl -p 3314 policy monitor
 ```
 
 **预期结果**:
@@ -438,7 +438,7 @@ SUBCOMMANDS:
 抓取 HTTP 流量数据的 eBPF 日志。
 ```bash
 # --proto 20 代表 HTTP1
-./agent/target/debug/deepflow-agent-ctl -p <PORT> ebpf datadump --pid 0 --name "" --proto 20 --duration 5
+./agent/target/debug/deepflow-agent-ctl -p 3314 ebpf datadump --pid 0 --name "" --proto 20 --duration 5
 ```
 
 **预期结果**:
@@ -450,7 +450,7 @@ SEQ 849: ... HTTP/1.1 200 OK ...
 **测试命令 (Profiler)**:
 调试持续剖析器 (Continuous Profiler)。
 ```bash
-./agent/target/debug/deepflow-agent-ctl -p <PORT> ebpf cpdbg --duration 5
+./agent/target/debug/deepflow-agent-ctl -p 3314 ebpf cpdbg --duration 5
 ```
 
 ## 4. 清理环境
