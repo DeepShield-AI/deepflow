@@ -307,7 +307,7 @@ func (c *Config) Validate() error {
 		actualAddrs = append(actualAddrs, net.JoinHostPort(c.CKDB.Host, strconv.Itoa(c.CKDB.Port)))
 		c.CKDB.ActualAddrs = &actualAddrs
 	} else {
-		if c.NodeIP == "" && c.ControllerIPs[0] == DefaultLocalIP {
+		if c.NodeIP == "" && len(c.ControllerIPs) > 0 && c.ControllerIPs[0] == DefaultLocalIP {
 			nodeIP, exist := os.LookupEnv(EnvK8sNodeIP)
 			if !exist {
 				log.Errorf("Can't get env %s", EnvK8sNodeIP)
